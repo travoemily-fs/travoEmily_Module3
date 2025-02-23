@@ -5,26 +5,64 @@ const mongoose = require("mongoose");
 // GET all characters
 exports.getAllCharacters = async (req, res) => {
   try {
-    const characters = await Characters.find({})
-      .populate("house", "name")
-      .select("-__v");
+    const filter = {};
+    // begin new 3.4 content
+    if (req.query.name) {
+      filter.name = new RegExp(req.query.name, "i");
+    }
+    if (req.query.minYear && req.query.maxYear) {
+      filter.year = {
+        $gte: parseInt(req.query.minYear),
+        $lte: parseInt(req.query.maxYear),
+      };
+    }
+    // new mongoose query filter
+    let query = Characters.find(filter).populate("house", "name");
+
+    // SELECT logic for including/excluding fields
+    if (req.query.select) {
+      // removes commas and adds spacing
+      const fields = req.query.select.split(",").join(" ");
+      query = query.select(fields);
+    } else {
+      // default exclude version
+      query = query.select("-__v");
+    }
+
+    // SORT logic
+    if (req.query.sort) {
+      query = query.sort(req.query.sort);
+    }
+
+    // PAGINATION logic
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
+
+    const characters = await query;
+
+    // get the total doc count
+    const totalDocuments = await Characters.countDocuments(filter);
+
+    // end new 3.4 content
 
     if (!characters.length) {
       return res.status(404).json({
         success: false,
-        message: messages.noCharactersFound,
+        message: "No characters found with these filters.",
       });
     }
 
-    res.status(200).json({
-      data: characters,
+    return res.status(200).json({
       success: true,
-      message: `${req.method} - Retrieved all characters.`,
+      message: `${req.method} - Retrieved all characters with select logic.`,
+      data: characters,
     });
   } catch (error) {
-    res.status(500).json({
+    console.error("Error retrieving characters:", error);
+    return res.status(500).json({
       success: false,
-      message: messages.serverError,
       error: error.message,
     });
   }
@@ -123,8 +161,8 @@ exports.updateCharacter = async (req, res) => {
       });
     }
     const character = await Characters.findByIdAndUpdate(id, req.body, {
-      new: true,          
-      runValidators: true 
+      new: true,
+      runValidators: true,
     });
     if (!character) {
       return res.status(404).json({

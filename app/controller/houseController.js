@@ -5,17 +5,49 @@ const mongoose = require("mongoose");
 // GET all houses
 exports.getAllHouses = async (req, res) => {
   try {
-    const houses = await Houses.find({}).select("-__v");
+    // begin new 3.4 content
+    const filter = {};
+    if (req.query.ghost) {
+      filter.ghost = { $in: [req.query.ghost.trim()] };
+    }
+    if (req.query.notFounder) {
+      filter.founder = { $ne: req.query.notFounder.trim() };
+    }
 
+    // new mongoose query for filtering
+    let query = Houses.find(filter);
+
+    // using SELECT param to include or exclude fields
+    if (req.query.select) {
+      // remove the comma from spacing
+      const fields = req.query.select.split(",").join(" ");
+      query = query.select(fields);
+    } else {
+      // default exclude version
+      query = query.select("-__v");
+    }
+
+    // PAGINATION logic
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
+
+    const houses = await query;
+
+    // get the total doc count
+    const totalDocuments = await Houses.countDocuments(filter);
+
+    // end new 3.4 content
     res.status(200).json({
-      data: houses,
       success: true,
+      data: houses,
       message: `${req.method} - Retrieved all Hogwarts Houses.`,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: messages.serverError,
+      message: "Server error.",
       error: error.message,
     });
   }
@@ -91,16 +123,15 @@ exports.updateHouse = async (req, res) => {
       });
     }
     const updatedHouse = await Houses.findByIdAndUpdate(id, req.body, {
-      new: true, 
-      runValidators: true, 
-    }).select("-__v"); 
+      new: true,
+      runValidators: true,
+    }).select("-__v");
 
     res.status(200).json({
       data: updatedHouse,
       success: true,
       message: messages.houseUpdated,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -109,7 +140,6 @@ exports.updateHouse = async (req, res) => {
     });
   }
 };
-
 
 // DELETE house
 exports.deleteHouse = async (req, res) => {
