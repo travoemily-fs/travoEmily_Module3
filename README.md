@@ -110,7 +110,8 @@ You need to write 2 tests for each:
 
 **Characters Collection:**
 
-- [x] Returned responses only contain specified fields (character name and mongoDB ID) - [x] `pm.test("Returned response only has character name and Mongo ID", function() {
+- [x] Returned responses only contain specified fields (character name and mongoDB ID)
+   - [x] `pm.test("Returned response only has character name and Mongo ID", function() {
     const responseBody = pm.response.json();
     pm.expect(responseBody.data.every(character => {
         const keys = Object.keys(character);
@@ -118,7 +119,8 @@ You need to write 2 tests for each:
     })).to.be.true;
 });`
 - **Houses Collection:**
-  - [x] Returned responses only contain specified fields (house founder and mongoDB ID) - [x] `pm.test("Returned response only has house Founder and Mongo ID", function() {
+  - [x] Returned responses only contain specified fields (house founder and mongoDB ID)
+    - [x] `pm.test("Returned response only has house Founder and Mongo ID", function() {
     const responseBody = pm.response.json();
     pm.expect(responseBody.data.every(character => {
         const keys = Object.keys(character);
@@ -130,7 +132,7 @@ You need to write 2 tests for each:
 
 - **Characters Collection:**
   - [x] Testing pagination for correct returns  
-         - [x] `pm.test("Pagination info is correct", function () {
+    - [x] `pm.test("Pagination info is correct", function () {
     const responseBody = pm.response.json();
     pm.expect(responseBody).to.have.property("currentPage");
     pm.expect(responseBody).to.have.property("totalPages");
@@ -138,7 +140,8 @@ You need to write 2 tests for each:
     pm.expect(responseBody.currentPage).to.eql(1);
 });`
 - **Houses Collection:**
-  - [x] Testing pagination to check if returned documents not not exceed limit - [x] `pm.test("No more data beyond limit", function () {
+  - [x] Testing pagination to check if returned documents not not exceed limit
+    - [x] `pm.test("No more data beyond limit", function () {
     const responseBody = pm.response.json();
     pm.expect(responseBody.data.length).to.be.at.most(2);
 });`
@@ -164,11 +167,18 @@ You need to write 2 tests for each:
     }
 });`
 - **Houses Collection:**
-  - [x] Houses sorted by name in _ascending_ order - [x] `pm.test("Houses are sorted in ascending order by name", () => {
+  - [x] Houses sorted by name in _ascending_ order
+    - [x] `pm.test("Houses are sorted in ascending order by name", () => {
     const responseData = pm.response.json();
     const houseNames = responseData.map(house => house.name);
     const sortedHouseNames = [...houseNames].sort();
     pm.expect(houseNames).to.eql(sortedHouseNames);
 });`
   - [x] Houses sorted by name in _descending_ order
-    - [x] ``
+    - [x] `pm.test("Houses are sorted in descending order by name", function () {
+    const responseBody = pm.response.json();
+    pm.expect(responseBody.houses).to.be.an('array').and.not.empty;
+    for (let i = 0; i < responseBody.houses.length - 1; i++) {
+        pm.expect(responseBody.houses[i].name).to.be.greaterThan(responseBody.houses[i + 1].name);
+    }
+});`
