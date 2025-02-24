@@ -102,14 +102,15 @@
 
 > You will write a unit test using Jest or Postman for your API. Like last module but for the endpoints the query operators on them.
 
+<hr>
+
 ### 🛠️ Assignment Specs
 
-You need to write 2 tests for each:
+> You need to write 2 tests for each
 
-⬀ 🧰 Write a test for your API with the endpoint the returns limited data based on a query string and select.
+### ⬀ 🧰 Write a test for your API with the endpoint the returns limited data based on a query string and select.
 
-**Characters Collection:**
-
+- **Characters Collection:**
 - [x] Returned responses only contain specified fields (character name and mongoDB ID)
    - [x] `pm.test("Returned response only has character name and Mongo ID", function() {
     const responseBody = pm.response.json();
@@ -128,7 +129,7 @@ You need to write 2 tests for each:
     })).to.be.true;
 });`
 
-⬀ 🧰 Write a test for your API that returns the pagination of the collection. Test the skip and limit of the endpoint.
+### ⬀ 🧰 Write a test for your API that returns the pagination of the collection. Test the skip and limit of the endpoint.
 
 - **Characters Collection:**
   - [x] Testing pagination for correct returns  
@@ -146,7 +147,7 @@ You need to write 2 tests for each:
     pm.expect(responseBody.data.length).to.be.at.most(2);
 });`
 
-⬀ 🧰 Write a test for the endpoint that returns your collection sorted. Test the sort in both directions.
+### ⬀ 🧰 Write a test for the endpoint that returns your collection sorted. Test the sort in both directions.
 
 - **Characters Collection:**
 - [x] Sorts characters by age in _ascending_ order
