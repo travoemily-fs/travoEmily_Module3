@@ -27,6 +27,11 @@ exports.getAllHouses = async (req, res) => {
       query = query.select("-__v");
     }
 
+    // SORT logic
+    if (req.query.sort) {
+      query = query.sort(req.query.sort);
+    }
+
     // PAGINATION logic
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
