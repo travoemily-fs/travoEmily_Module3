@@ -23,7 +23,7 @@
 
 ## 3.4: API query data from MongoDB
 
-🎥 Video presentation ➪ [x](here)
+🎥 Video presentation ➪ [x](https://youtu.be/ZUoUGtnHNBE)
 
 ### ℹ️ Assignment Overview
 
