@@ -170,7 +170,7 @@
 - **Houses Collection:**
   - [x] Houses sorted by name in _ascending_ order
     - [x] `pm.test("Houses are sorted in ascending order by name", () => {
-    const responseData = pm.response.json();
+    const responseData = pm.response.json().data;
     const houseNames = responseData.map(house => house.name);
     const sortedHouseNames = [...houseNames].sort();
     pm.expect(houseNames).to.eql(sortedHouseNames);
