@@ -178,8 +178,10 @@
   - [x] Houses sorted by name in _descending_ order
     - [x] `pm.test("Houses are sorted in descending order by name", function () {
     const responseBody = pm.response.json();
-    pm.expect(responseBody.houses).to.be.an('array').and.not.empty;
-    for (let i = 0; i < responseBody.houses.length - 1; i++) {
-        pm.expect(responseBody.houses[i].name).to.be.greaterThan(responseBody.houses[i + 1].name);
+    pm.expect(responseBody.data).to.be.an('array').and.not.empty;
+
+    for (let i = 0; i < responseBody.data.length - 1; i++) {
+        pm.expect(responseBody.data[i].name)
+          .to.be.greaterThan(responseBody.data[i + 1].name);
     }
 });`
