@@ -75,8 +75,8 @@
       query = query.sort(req.query.sort);
     }`
 
-🔗 Example query for Postman (sorted by ascending age): `http://localhost:3000/api/v1/characters&sort=age` <br><br>
-🔗 Example query for Postman (sorted by descending age): `http://localhost:3000/api/v1/characters&sort=-age`
+🔗 Example query for Postman (sorted by ascending age): `http://localhost:3000/api/v1/characters?sort=age` <br><br>
+🔗 Example query for Postman (sorted by descending age): `http://localhost:3000/api/v1/characters?sort=-age`
 
 <hr>
 
