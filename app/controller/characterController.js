@@ -42,7 +42,6 @@ exports.getAllCharacters = async (req, res) => {
 
     const characters = await query;
 
-    // get the total doc count
     const totalDocuments = await Characters.countDocuments(filter);
 
     // end new 3.4 content
@@ -58,6 +57,9 @@ exports.getAllCharacters = async (req, res) => {
       success: true,
       message: `${req.method} - Retrieved all characters with select logic.`,
       data: characters,
+      currentPage: page,
+      totalPages: Math.ceil(totalDocuments / limit),
+      totalDocuments,
     });
   } catch (error) {
     console.error("Error retrieving characters:", error);

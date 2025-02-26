@@ -48,6 +48,9 @@ exports.getAllHouses = async (req, res) => {
       success: true,
       data: houses,
       message: `${req.method} - Retrieved all Hogwarts Houses.`,
+      currentPage: page,
+      totalPages: Math.ceil(totalDocuments / limit),
+      totalDocuments,
     });
   } catch (error) {
     res.status(500).json({
