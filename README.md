@@ -94,9 +94,9 @@
 
 <hr>
 
-## 3.5 & 3.6: Unit testing your API (using Jest)
+## 3.5 & 3.6: Unit testing your API (using Jest or Postman)
 
-🎥 Video presentation ➪ [x](here)
+🎥 Video presentation ➪ [x](https://youtu.be/TMeTP_zUJH8)
 
 ### ℹ️ Assignment Overview
 
