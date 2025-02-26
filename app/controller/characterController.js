@@ -17,7 +17,7 @@ exports.getAllCharacters = async (req, res) => {
       };
     }
     // new mongoose query filter
-    let query = Characters.find(filter).populate("house", "name");
+    let query = Characters.find(filter).populate("name");
 
     // SELECT logic for including/excluding fields
     if (req.query.select) {
